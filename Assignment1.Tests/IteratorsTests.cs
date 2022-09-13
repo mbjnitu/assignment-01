@@ -5,7 +5,7 @@ using Xunit;
 public class IteratorsTests
 {
     [Fact]
-    public void flatten_given_list_of_lists_w_0to9_returns_list_0to8() {
+    public void flatten_given_list_of_lists_w_0to8_returns_list_0to8() {
 
         // Arrange
         var m = new List<List<int>>() {
@@ -22,15 +22,14 @@ public class IteratorsTests
     }
 
     [Fact]
-    public void mmm() {
+    public void Filter_given_0to8_and_booleven_returns_0_2_4_6_8() {
 
         // Arrange
         var m = new List<int>() {
             0, 1, 2, 3, 4, 5, 6, 7, 8
         };
 
-        Predicate<int> even = Even;
-        bool Even(int i) => i % 2 == 0;
+        Predicate<int> even = (int i) => i % 2 == 0;
 
         // Act
         var n = Iterators.Filter(m, even);

@@ -24,5 +24,12 @@ public static class RegExpr
         }
     }
 
-    public static IEnumerable<string> InnerText(string html, string tag) => throw new NotImplementedException();
+    public static IEnumerable<string> InnerText(string html, string tag) {
+        string pattern = "<"+ tag + @".*?>(.*?)</"+ tag +"+>";
+        Regex rg = new Regex(pattern);
+        var ms = rg.Matches(html);
+        foreach (Match m in ms) {
+            yield return Regex.Replace(m.Groups[1].Value, @"<.*?>", "");
+        }
+    }
 }
