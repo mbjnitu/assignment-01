@@ -40,7 +40,7 @@ public static class RegExpr
         foreach (Match m in ms) {
             Uri url = new Uri(m.Groups["url"].Value, UriKind.Absolute);
             string title;
-            if (m.Groups["title"].Value != null) {
+            if (m.Groups["title"].Value != "") {
                 title = m.Groups[2].Value;
             }
             else {
