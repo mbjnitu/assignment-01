@@ -76,4 +76,20 @@ public class RegExprTests
                                             "The phrase regular expressions (and consequently, regexes) is often used to mean the specific, standard textual syntax for representing patterns that matching text need to conform to.",
                                         });
     }
+
+    [Fact]
+    public void Urls_given_teststring_returns_urlsAndTitles() {
+
+        // Arrange
+        var line =
+        @"<div>
+            <p>A <b>regular expression</b>, <b>regex</b> or <b>regexp</b> (sometimes called a <b>rational expression</b>) is, in <a href=""https://en.wikipedia.org/wiki/Theoretical_computer_science"" title=""Theoretical computer science"">theoretical computer science</a> <a href=""https://en.wikipedia.org/wiki/Theoretical_computer_science"">hello<b>hello</b></a>
+        </div>";
+
+        // Act
+        var r = RegExpr.Urls(line);
+
+        // Assert 
+        r.Should().BeEquivalentTo(new List<(Uri url, string title)> {(new Uri("https://en.wikipedia.org/wiki/Theoretical_computer_science", UriKind.Absolute), "Theoretical computer science"), (new Uri("https://en.wikipedia.org/wiki/Theoretical_computer_science", UriKind.Absolute), "hellohello")});
+    }
 }

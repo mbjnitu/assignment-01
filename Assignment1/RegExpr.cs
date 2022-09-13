@@ -32,4 +32,22 @@ public static class RegExpr
             yield return Regex.Replace(m.Groups[1].Value, @"<.*?>", "");
         }
     }
+
+    public static IEnumerable<(Uri url, string title)> Urls(string html) {
+        string pattern = @"<a.*?href=""(?<url>.*?)""(?:.*?title=""(?<title>.*?)"")?.*?>(?<inner>.*?)</a>";
+        Regex rg = new Regex(pattern);
+        var ms = rg.Matches(html);
+        foreach (Match m in ms) {
+            Uri url = new Uri(m.Groups["url"].Value, UriKind.Absolute);
+            string title;
+            if (m.Groups["title"].Value != null) {
+                title = m.Groups[2].Value;
+            }
+            else {
+                title = "<t>" + m.Groups["inner"].Value + "</t>";
+                title = InnerText(title, "t").First();
+            }
+            yield return (url, title);
+        }
+    }
 }
